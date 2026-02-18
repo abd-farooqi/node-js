@@ -1,4 +1,5 @@
 // import fs from "fs";
+import { readdir } from "fs";
 import fs from "fs/promises";
 
 // readFile() - callback
@@ -12,6 +13,40 @@ import fs from "fs/promises";
 // console.log(data);
 
 // readFile() - Promise .then()
-fs.readFile("./test.txt", "utf-8")
-  .then((data) => console.log(data))
-  .catch((err) => console.dir(err));
+// fs.readFile("./test.txt", "utf-8")
+//   .then((data) => console.log(data))
+//   .catch((err) => console.dir(err));
+
+//readFile() - async/await
+const readFile = async () => {
+  try {
+    const data = await fs.readFile("./test.txt", "utf-8");
+    console.log(data);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+writeFile();
+const writeFile = async () => {
+  try {
+    await fs.writeFile("./test.txt", "Hello ,i am writing to this file");
+    console.log("File written to...");
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// appendFile()
+const appendFile = async () => {
+  try {
+    await fs.appendFile("./test.txt", "\nThis is appended text");
+    console.log("File appended to...");
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+writeFile();
+appendFile();
+readFile();
