@@ -54,6 +54,23 @@ const createUserHandler = (req, res) => {
   });
 };
 
+// /////////////////////////
+const createUserHandler2 = (req, res) => {
+  let body = "";
+
+  req.on("data", (chunk) => {
+    body += chunk.toString();
+  });
+  req.on("end", () => {
+    let newUser = JSON.parse(body);
+    users.push(newUser);
+
+    res.writeHead(201, { "Content-Type": "application/json" });
+    res.end(JSON.stringify(newUser));
+  });
+};
+// //////////////////////
+
 // Not found handler
 const notFoundHandler = (req, res) => {
   res.statusCode = 404;
@@ -65,7 +82,7 @@ const server = createServer((req, res) => {
   logger(req, res, () => {
     jsonMiddleware(req, res, () => {
       if (req.url === "/api/users" && req.method === "GET") {
-        getUsersHandler(req, res);
+        getUsersHandler2(req, res);
       } else if (
         req.url.match(/\/api\/users\/([0-9]+)/) &&
         req.method === "GET"
